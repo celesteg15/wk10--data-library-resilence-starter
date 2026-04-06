@@ -19,6 +19,8 @@ import {
   sortSelect,
   statusEl,
   summaryEl,
+  loadingEl,
+  staleBannerEl,
 } from "./dom.js";
 import {
   formatTime,
@@ -27,18 +29,25 @@ import {
   getSelectedVisibleItem,
   getVisibleItems,
   state,
+  getErrorDisplay,
+  isStale,
 } from "./state.js";
 
 /* ── status bar ───────────────────────────── */
 
 function renderStatus() {
+  if (state.isLoading && state.items.length > 0) {
+    statusEl.textContent = "Refreshing data…";
+    return;
+  }
+
   if (state.isLoading) {
     statusEl.textContent = "Loading data…";
     return;
   }
 
-  if (state.error) {
-    statusEl.textContent = "";
+  if (state.error && state.items.length > 0 && state.lastLoadedAt) {
+    statusEl.textContent = `Refresh failed. Showing data from ${formatTime(state.lastLoadedAt)}.`;
     return;
   }
 
@@ -51,17 +60,51 @@ function renderStatus() {
 }
 
 // TODO: add renderLoading() to show/hide a loading spinner.
-
+function renderLoading() {
+  loadingEl.hidden = !state.isLoading;
+}
 // TODO: add renderStaleBanner() to warn when data is older
 //       than the stale threshold.
+function renderStaleBanner() {
+  const showPreservedDataBanner =
+    Boolean(state.error && state.items.length > 0 && state.lastLoadedAt);
 
+  const showStaleAgeBanner =
+    !state.isLoading && !state.error && state.items.length > 0 && isStale();
+
+  const shouldShow = showPreservedDataBanner || showStaleAgeBanner;
+
+  staleBannerEl.hidden = !shouldShow;
+
+  if (!shouldShow) {
+    staleBannerEl.textContent = "";
+    return;
+  }
+
+  if (showPreservedDataBanner) {
+    staleBannerEl.textContent =
+      `Showing previously loaded data from ${formatTime(state.lastLoadedAt)} while the refresh is unavailable.`;
+    return;
+  }
+
+  staleBannerEl.textContent =
+    `This data may be stale. It was last loaded at ${formatTime(state.lastLoadedAt)}.`;
+}
 /* ── error panel ──────────────────────────── */
 
 function renderError() {
-  errorEl.hidden = !state.error || state.isLoading;
-  errorMsgEl.textContent = state.error || "—";
-}
+  if (!state.error || state.isLoading) {
+    errorEl.hidden = true;
+    errorMsgEl.textContent = "—";
+    retryBtn.hidden = true;
+    return;
+  }
 
+  const display = getErrorDisplay(state.error);
+  errorEl.hidden = false;
+  errorMsgEl.textContent = display.message;
+  retryBtn.hidden = !display.showRetry;
+}
 /* ── controls (chips, inputs) ─────────────── */
 
 function renderControls(kindCounts) {
@@ -182,6 +225,8 @@ function render() {
   const selectedItem = getSelectedVisibleItem(visibleItems);
 
   renderStatus();
+  renderLoading();
+  renderStaleBanner();
   renderError();
   renderControls(getKindCounts(state.items));
   renderList(visibleItems);
