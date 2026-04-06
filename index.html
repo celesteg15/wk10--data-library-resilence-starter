@@ -40,6 +40,7 @@
         <div id="counts" class="counts" aria-live="polite">—</div>
         <div id="summary" class="summary" aria-live="polite">—</div>
         <div id="status" class="status" role="status" aria-live="polite"></div>
+        <div id="staleBanner" class="stale-banner" role="status" aria-live="polite" hidden></div>
       </div>
 
       <!-- TODO: add a stale-data banner here -->
@@ -53,7 +54,11 @@
         </div>
 
         <!-- TODO: add a loading spinner section here -->
-
+        <div id="loading" class="loading" role="status" aria-live="polite" hidden>
+          <div class="spinner" aria-hidden="true"></div>
+          <div> Loading the latest itesms...</div>
+        </div>
+        
         <div id="error" class="error" hidden>
           <div class="error-title">Couldn't load data</div>
           <div class="error-msg" id="errorMsg">—</div>

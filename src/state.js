@@ -1,4 +1,5 @@
 const DATA_URL = "./assets/items.json";
+const STALE_MS = 5 * 60 * 1000;
 
 const state = {
   // ── filters (from Week 9) ──
@@ -38,7 +39,63 @@ function isValidItem(item) {
 
 // TODO: add an isStale() function that checks if lastLoadedAt
 // is older than a threshold (e.g. 5 minutes).
+function isStale() {
+  if (!state.lastLoadedAt) return false;
+  return Date.now() - state.lastLoadedAt.getTime() > STALE_MS;
+}
 
+const errorDescriptors = [
+  {
+    test(error) {
+      return error?.name === "AbortError" || error?.code === "TIMEOUT";
+    },
+    message: "The request took too long and timed out. Please try again.",
+    showRetry: true,
+  },
+  {
+    test(error) {
+      return error?.code === "OFFLINE";
+    },
+    message: "You appear to be offline. Check your internet connection, then retry.",
+    showRetry: true,
+  },
+  {
+    test(error) {
+      return error?.code === "HTTP_ERROR";
+    },
+    message(error) {
+      return `The server returned ${error.status}. Please retry in a moment.`;
+    },
+    showRetry: true,
+  },
+  {
+    test(error) {
+      return error?.code === "INVALID_DATA";
+    },
+    message: "The data response was malformed, so the app kept the last good results.",
+    showRetry: true,
+  },
+];
+
+const defaultDescriptor = {
+  message: "Something went wrong while loading data. Please try again.",
+  showRetry: true,
+};
+
+function getErrorDisplay(error) {
+  const descriptor =
+    errorDescriptors.find((entry) => entry.test(error)) || defaultDescriptor;
+
+  const message =
+    typeof descriptor.message === "function"
+      ? descriptor.message(error)
+      : descriptor.message;
+
+  return {
+    message,
+    showRetry: descriptor.showRetry,
+  };
+}
 /* ── selectors ────────────────────────────── */
 
 function compareBy(sortBy) {
@@ -123,4 +180,8 @@ export {
   getVisibleItems,
   isValidItem,
   state,
+  defaultDescriptor,
+  errorDescriptors,
+  getErrorDisplay,
+  isStale,
 };

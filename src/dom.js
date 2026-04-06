@@ -18,6 +18,8 @@ const detailTitle  = document.querySelector("#detailTitle");
 const detailMeta   = document.querySelector("#detailMeta");
 const detailDesc   = document.querySelector("#detailDesc");
 const favBtn       = document.querySelector("#favBtn");
+const staleBannerEl = document.querySelector("#staleBanner");
+const loadingEl = document.querySelector("#loading");
 
 export {
   clearBtn,
@@ -40,4 +42,6 @@ export {
   sortSelect,
   statusEl,
   summaryEl,
+  loadingEl,
+  staleBannerEl,
 };
