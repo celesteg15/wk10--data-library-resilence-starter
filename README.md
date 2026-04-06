@@ -5,10 +5,10 @@
 2. Start a local HTTP server:
 
    ```bash
-   python3 -m http.server 4040
+   python3 -m http.server 5500
 
 then open:
-    http://127.0.0.1:4040/ 
+    http://127.0.0.1:5500/ 
 
 ## Failure modes identified
 
