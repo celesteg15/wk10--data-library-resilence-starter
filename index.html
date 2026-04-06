@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Week 10 Starter — Nova Library resilience pass</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div class="title">Nova Library</div>
+          <div class="subtitle">Week 10 starter — add error handling, retry, and timeout</div>
+        </div>
+      </div>
+
+      <div class="controls" aria-label="Browse controls">
+        <label class="field">
+          <span class="field-label">Search</span>
+          <input id="searchInput" class="input" type="search" placeholder="Search titles or tags…" />
+        </label>
+
+        <label class="field field-compact">
+          <span class="field-label">Sort</span>
+          <select id="sortSelect" class="select">
+            <option value="title-asc">Title A-Z</option>
+            <option value="minutes-desc">Minutes high-low</option>
+            <option value="kind-asc">Kind A-Z</option>
+          </select>
+        </label>
+
+        <button id="favFilterBtn" class="btn" type="button" aria-pressed="false">Favorites only</button>
+        <button id="clearBtn" class="btn" type="button">Clear filters</button>
+        <button id="reloadBtn" class="btn btn-primary" type="button">Reload data</button>
+      </div>
+
+      <div class="status-row">
+        <div id="counts" class="counts" aria-live="polite">—</div>
+        <div id="summary" class="summary" aria-live="polite">—</div>
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+      </div>
+
+      <!-- TODO: add a stale-data banner here -->
+    </header>
+
+    <main class="layout">
+      <section class="list" aria-label="Items">
+        <div class="section-head">
+          <h1 class="h1">Browse</h1>
+          <div id="kindChips" class="chips" aria-label="Kinds"></div>
+        </div>
+
+        <!-- TODO: add a loading spinner section here -->
+
+        <div id="error" class="error" hidden>
+          <div class="error-title">Couldn't load data</div>
+          <div class="error-msg" id="errorMsg">—</div>
+          <button id="retryBtn" class="btn" type="button">Retry</button>
+        </div>
+
+        <div id="empty" class="empty" hidden>
+          <div class="empty-title">No results</div>
+          <div class="empty-sub" id="emptyMsg">Try clearing filters or changing your search.</div>
+        </div>
+
+        <div class="card-grid" id="cardGrid"></div>
+      </section>
+
+      <aside class="detail" aria-label="Detail">
+        <h2 class="h2">Detail</h2>
+        <p class="muted" id="detailHint">Select an item to show detail.</p>
+
+        <div class="detail-card">
+          <div class="detail-title" id="detailTitle">Nothing selected</div>
+          <div class="detail-meta" id="detailMeta">—</div>
+          <p class="detail-desc" id="detailDesc">Week 10 studio: add resilience to every async path in this app.</p>
+
+          <div class="detail-actions">
+            <button id="favBtn" class="btn btn-primary" type="button" aria-pressed="false" disabled>Favorite</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

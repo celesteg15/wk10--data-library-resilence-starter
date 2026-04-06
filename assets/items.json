@@ -1,0 +1,68 @@
+{
+  "items": [
+    {
+      "id": "aster",
+      "title": "Aster",
+      "kind": "Article",
+      "minutes": 5,
+      "desc": "Short article about UI states and truthful interface messaging.",
+      "tags": ["ui", "reliability"]
+    },
+    {
+      "id": "echo",
+      "title": "Echo",
+      "kind": "Guide",
+      "minutes": 8,
+      "desc": "Guide to rendering lists from data and keeping detail views consistent.",
+      "tags": ["dom", "render"]
+    },
+    {
+      "id": "pulse",
+      "title": "Pulse",
+      "kind": "Demo",
+      "minutes": 6,
+      "desc": "Demo of status regions, retry UI, and small interaction loops.",
+      "tags": ["status", "retry"]
+    },
+    {
+      "id": "fjord",
+      "title": "Fjord",
+      "kind": "Reference",
+      "minutes": 9,
+      "desc": "Reference note on JSON limits and JavaScript value shapes.",
+      "tags": ["json", "types"]
+    },
+    {
+      "id": "mosaic",
+      "title": "Mosaic",
+      "kind": "Gallery",
+      "minutes": 10,
+      "desc": "Gallery pattern showing how filters change a visible collection.",
+      "tags": ["filter", "state"]
+    },
+    {
+      "id": "lumen",
+      "title": "Lumen",
+      "kind": "Pattern",
+      "minutes": 7,
+      "desc": "Pattern note for caching and restoring browse preferences.",
+      "tags": ["cache", "preferences"]
+    },
+    {
+      "id": "harbor",
+      "title": "Harbor",
+      "kind": "Note",
+      "minutes": 4,
+      "desc": "Note on keeping fetch, state, and render responsibilities separated.",
+      "tags": ["architecture", "modules"]
+    },
+    {
+      "id": "ember",
+      "title": "Ember",
+      "kind": "Snippet",
+      "minutes": 2,
+      "desc": "Snippet for validating item shape before rendering.",
+      "tags": ["validate", "shape"]
+    }
+  ]
+}
